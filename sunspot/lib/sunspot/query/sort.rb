@@ -76,8 +76,13 @@ module Sunspot
       # (usually) randomly.
       #
       class RandomSort < Abstract
+        def initialize(options, direction=nil)
+          options ||= {:seed => rand(1<<16)}
+          @seed, @direction = options[:seed], (direction || :asc).to_sym
+        end
+
         def to_param
-          "random_#{rand(1<<16)} #{direction_for_solr}"
+          "random_#{@seed} #{direction_for_solr}"
         end
       end
 
